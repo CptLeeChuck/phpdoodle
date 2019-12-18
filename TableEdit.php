@@ -1,6 +1,12 @@
+<!doctype html>
+<html class="no-js" lang="en">
 
-<script type="text/javascript" src="jq15.js"></script>
-<script type="text/javascript">
+<head>
+	<script type="text/javascript" src="jq15.js"></script> <!-- JQuery 1.5 :-o -->
+	<link rel="stylesheet" href="./bootstrap-4.4.1/css/bootstrap.min.css">
+	<script type="text/javascript" src="./bootstrap-4.4.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+
 $(document).ready(function() {
 	$(".edit_tr").click(function() {
 		
@@ -54,28 +60,25 @@ $(document).ready(function() {
 
 <style>
 	
-	* {
-		font-family:Arial, Helvetica, sans-serif;
-		font-size:14px;
-		border:solid 1px #000;
-		padding:4px;	
-	}
-
 	td {
 		padding:5px;
 	}
 	
 	.text {
-		width:380px;
-		height: 20px;
+		/*width:380px;
+		height: 20px;*/
 		background-color:#bbcccc;
+		/*border:solid 1px #000;
+		padding:4px;*/
 		display:inline-block;
 	}
 	
 	.editbox {
-		height: 20px;
-		width:380px;
+		/*height: 20px;
+		width:380px;*/
 		background-color:#ffffcc;
+		/*border:solid 1px #000;
+		padding:4px;*/	
 		display:none
 	}
 	
@@ -85,13 +88,17 @@ $(document).ready(function() {
 	}
 </style>
 
+</head>
+<body>
 
-<table>
-	<tr>
-		<th>Name</th>
-		<th>Welche Wurst und wie viele davon?</th>
-		<th>Welches Getränk</th>
-	</tr>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Welche Wurst und wie viele davon?</th>
+			<th>Welches Getränk</th>
+		</tr>
+	</thead>
 <?php
 
 	include('db.php');
@@ -113,17 +120,17 @@ $(document).ready(function() {
 			
 			<td class="edit_td">
 			<span id="first_<?php echo $id; ?>" class="text"><?php echo $name; ?></span>
-			<input type="text" value="<?php echo $name; ?>" class="editbox" id="first_input_<?php echo $id; ?>" />
+			<input type="text" value="<?php echo $name; ?>" class="editbox form-control form-control-lg" id="first_input_<?php echo $id; ?>" />
 			</td>
 			
 			<td class="edit_td">
 			<span id="wurst_<?php echo $id; ?>" class="text"><?php echo $wurst; ?></span> 
-			<input type="text" value="<?php echo $wurst; ?>" class="editbox" id="wurst_input_<?php echo $id; ?>"/>
+			<input type="text" value="<?php echo $wurst; ?>" class="editbox form-control form-control-lg" id="wurst_input_<?php echo $id; ?>"/>
 			</td>
 			
 			<td class="edit_td">
 			<span id="last_<?php echo $id; ?>" class="text"><?php echo $getraenk; ?></span> 
-			<input type="text" value="<?php echo $getraenk; ?>" class="editbox" id="last_input_<?php echo $id; ?>"/>
+			<input type="text" value="<?php echo $getraenk; ?>" class="editbox form-control form-control-lg" id="last_input_<?php echo $id; ?>"/>
 			</td>
 			
 			</tr>
@@ -133,3 +140,6 @@ $(document).ready(function() {
 ?>
 
 </table>
+
+</body>
+</html>
