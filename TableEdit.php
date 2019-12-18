@@ -53,16 +53,20 @@ $(document).ready(function() {
 </script>
 
 <style>
+	
 	body {
 		font-family:Arial, Helvetica, sans-serif;
 		font-size:14px;
 	}
+
 	.editbox {
 		display:none
 	}
+
 	td {
 		padding:5px;
 	}
+	
 	span {
 		width:380px;
 		height: 20px;
@@ -71,6 +75,7 @@ $(document).ready(function() {
 		padding:4px;
 		display:inline-block;
 	}
+	
 	.editbox {
 		font-size:14px;
 		height: 20px;
@@ -79,6 +84,7 @@ $(document).ready(function() {
 		border:solid 1px #000;
 		padding:4px;
 	}
+	
 	.edit_tr:hover {
 		background:url(edit.png) right no-repeat #80C8E5;
 		cursor:pointer;
