@@ -54,39 +54,33 @@ $(document).ready(function() {
 
 <style>
 	
-	body {
+	* {
 		font-family:Arial, Helvetica, sans-serif;
 		font-size:14px;
-	}
-
-	.editbox {
-		display:none
+		border:solid 1px #000;
+		padding:4px;	
 	}
 
 	td {
 		padding:5px;
 	}
 	
-	span {
+	.text {
 		width:380px;
 		height: 20px;
 		background-color:#bbcccc;
-		border:solid 1px #000;
-		padding:4px;
 		display:inline-block;
 	}
 	
 	.editbox {
-		font-size:14px;
 		height: 20px;
 		width:380px;
 		background-color:#ffffcc;
-		border:solid 1px #000;
-		padding:4px;
+		display:none
 	}
 	
 	.edit_tr:hover {
-		background:url(edit.png) right no-repeat #80C8E5;
+		background-color:#998855;
 		cursor:pointer;
 	}
 </style>
