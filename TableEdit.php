@@ -83,7 +83,7 @@ $(document).ready(function() {
 	}
 	
 	.edit_tr:hover {
-		background-color:#998855;
+		background-color:#1ebbb4;
 		cursor:pointer;
 	}
 </style>
@@ -91,6 +91,7 @@ $(document).ready(function() {
 </head>
 <body>
 
+<br><br><br><br><br>
 
 <?php
 
@@ -109,22 +110,22 @@ $(document).ready(function() {
 		while (mysqli_stmt_fetch($stmt)) {
 
 ?>
-<div class="container">
-  <div id="<?php echo $id; ?>" class="edit_tr row">
-    <div class="col-sm">
-      <span id="first_<?php echo $id; ?>" class="text"><?php echo $name; ?></span>
-			<input type="text" value="<?php echo $name; ?>" class="editbox form-control form-control-lg" id="first_input_<?php echo $id; ?>" />
-    </div>
-    <div class="col-sm">
-      <span id="wurst_<?php echo $id; ?>" class="text"><?php echo $wurst; ?></span> 
-			<input type="text" value="<?php echo $wurst; ?>" class="editbox form-control form-control-lg" id="wurst_input_<?php echo $id; ?>"/>
-    </div>
-    <div class="col-sm">
-      <span id="last_<?php echo $id; ?>" class="text"><?php echo $getraenk; ?></span> 
-			<input type="text" value="<?php echo $getraenk; ?>" class="editbox form-control form-control-lg" id="last_input_<?php echo $id; ?>"/>
-    </div>
-  </div>
-</div>
+	<div class="container">
+		<div id="<?php echo $id; ?>" class="edit_tr row align-items-center">
+			<div class="col-lg mt-2 mb-2">
+				<span id="first_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $name; ?></span>
+				<input type="text" value="<?php echo $name; ?>" class="editbox form-control form-control-lg" id="first_input_<?php echo $id; ?>" />
+			</div>
+			<div class="col-lg mt-2 mb-2">
+				<span id="wurst_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $wurst; ?></span> 
+				<input type="text" value="<?php echo $wurst; ?>" class="editbox form-control form-control-lg" id="wurst_input_<?php echo $id; ?>"/>
+			</div>
+			<div class="col-lg mt-2 mb-2">
+				<span id="last_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $getraenk; ?></span> 
+				<input type="text" value="<?php echo $getraenk; ?>" class="editbox form-control form-control-lg" id="last_input_<?php echo $id; ?>"/>
+			</div>
+		</div>
+	</div>
 
 
 
