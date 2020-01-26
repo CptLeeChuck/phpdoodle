@@ -1,6 +1,19 @@
 <!doctype html>
 <html class="no-js" lang="en">
 
+<?php
+	// db.php defines the follwing:
+	// $mysql_hostname = "HOST";
+	// $mysql_user = "USER";
+	// $mysql_password = "PASSWORD";
+	// $mysql_database = "DATABASE";
+	// $mysql_table = "TABLE";
+	// $link = mysqli_connect($mysql_hostname, $mysql_user, $mysql_password, $mysql_database) or die("Could not connect database");
+	include('db.php');
+
+
+?>
+
 <head>
 	<script type="text/javascript" src="jq15.js"></script> <!-- JQuery 1.5 :-o -->
 	<link rel="stylesheet" href="./bootstrap-4.4.1/css/bootstrap.min.css">
@@ -11,38 +24,58 @@ $(document).ready(function() {
 	$(".edit_tr").click(function() {
 		
 		var ID=$(this).attr('id');
-		$("#first_"+ID).hide();
-		$("#last_"+ID).hide();
-		$("#wurst_"+ID).hide();
-		$("#first_input_"+ID).show();
-		$("#last_input_"+ID).show();
-		$("#wurst_input_"+ID).show();
+		<?php
+			// This loop generates this lines of JS:
+			// $("#firstcolumn_"+ID).hide();
+			// $("#firstcolumn_input_"+ID).show();
+			foreach ($spalten as $spalte) {
+				echo '$("#' . $spalte["col"] . '_"+ID).hide();' . "\n";
+				echo '$("#' . $spalte["col"] . '_input_"+ID).show();' . "\n";
+			}
+		?>
 	}).change(function() {
 		var ID=$(this).attr('id');
-		var first=$("#first_input_"+ID).val();
-		var last=$("#last_input_"+ID).val();
-		var wurst=$("#wurst_input_"+ID).val();
-		var dataString = 'id='+ ID +'&name='+first+'&getraenk='+last+'&wurst='+wurst;
+		<?php
+			// This loop generates this lines of JS:
+			// var firstcolumn=$("#firstcolumn_input_"+ID).val();
+			// var secndcolumn=$("#secndcolumn_input_"+ID).val();
+			foreach ($spalten as $spalte) {
+				echo 'var ' . $spalte["col"] . '=$("#' . $spalte["col"] . '_input_"+ID).val();' . "\n";
+			}
+
+			// This loop generates this line of JS:
+			// var dataString = 'id='+ ID +'&name='+first+'&getraenk='+last+'&wurst='+wurst;
+			echo "var dataString = 'id='+ ID +'";
+			$firstloop = true;
+			foreach ($spalten as $spalte) {
+				if (!$firstloop)
+					echo "+'";
+				echo "&" . $spalte["col"] . "='+" . $spalte["col"];
+				$firstloop = false;
+			}
+			echo ";\n";
+		?>
 		
 		// Vielleicht hier doch ein Waiting Wheel weil so lange ist auch noch der alte Wert im Text zu sehen
 		// bevor die Success Meldung des Ajax Requests erfolgte bleibt der Text der Alte.
 		
-		if(first.length>0) {
-		
-			$.ajax( {
-				type: "POST",
-				url: "table_edit_ajax.php",
-				data: dataString,
-				cache: false,
-				success: function(html) {
-					$("#first_"+ID).html(first);
-					$("#last_"+ID).html(last);
-					$("#wurst_"+ID).html(wurst);
-				}
-			});
-		} else {
-			//alert('Enter something.');
-		}
+		$.ajax( {
+			type: "POST",
+			url: "table_edit_ajax.php",
+			data: dataString,
+			cache: false,
+			success: function(html) {
+
+				<?php
+					// This loop generates this lines of JS:
+					// $("#firstcolumn_"+ID).html(firstcolumn);
+					// $("#secndcolumn_"+ID).html(secndcolumn);
+					foreach ($spalten as $spalte) {
+						echo '$("#' . $spalte["col"] . '_"+ID).html(' . $spalte["col"] . ');' . "\n";
+					}
+				?>
+			}
+		});
 	});
 
 	// Edit input box click action
@@ -115,25 +148,65 @@ $(document).ready(function() {
 
 <br><br><br><br><br>
 
+	
+
+
 <?php
 
-	include('db.php');
-
-	$query = "select * from test";
+	// Create SQL query like:
+	// $query = "SELECT firstcolumn, secndcolumn FROM 'test'";
+	$query = "SELECT id, ";
+	$firstloop = true;
+	foreach ($spalten as $spalte) {
+				if (!$firstloop)
+					$query .= ", ";
+				$query .= $spalte["col"];
+				$firstloop = false;
+			}
+	$query .= " FROM $mysql_table";
 
 	// mysqli with statement
 	if ($stmt = mysqli_prepare($link, $query)) {
 	    // execute statement
 	    mysqli_stmt_execute($stmt);
-	    // bind result variables
-	    mysqli_stmt_bind_result($stmt, $id, $name, $wurst, $getraenk);
-	
-		// fetch values
-		while (mysqli_stmt_fetch($stmt)) {
+	    // catch results
+	    $result = mysqli_stmt_get_result($stmt);
+	    // loop each row
+        while ($row = mysqli_fetch_assoc($result))
+        {
+            ///////echo $row["name"];
 
-?>
-	<div class="container">
-		<div id="<?php echo $id; ?>" class="edit_tr row align-items-center">
+   			// Create rows like
+			// <div class="col-lg mt-2 mb-2">
+			// 	<span id="first_ID-HERE" class="text form-control form-control-lg">VALUE_HERE</span>
+			// 	<input type="text" value="VALUE_HERE" class="editbox form-control form-control-lg" id="first_input_ID-HERE" />
+			// </div>
+
+
+        	//<div class="container">
+				//<div id="ID-HERE" class="edit_tr row align-items-center">
+
+        	echo '<div class="container">';
+			echo '<div id="' . $row["id"] . '" class="edit_tr row align-items-center">';
+
+ 			
+            foreach ($spalten as $spalte) {
+	//			echo '$("#' . $spalte["col"] . '_"+ID).hide();' . "\n";
+	//			echo '$("#' . $spalte["col"] . '_input_"+ID).show();' . "\n";
+
+	            echo '<div class="col-lg mt-2 mb-2">' . "\n";
+	            echo '	<span id="' . $spalte["col"] . '_' . $row["id"] . '" class="text form-control form-control-lg">' . $row[$spalte["col"]] . '</span>' . "\n";
+	            echo '	<input type="text" value="' . $row[$spalte["col"]] . '" class="editbox form-control form-control-lg" id="' . $spalte["col"] . '_input_' . $row["id"] . '" />' . "\n";
+	            echo "</div>\n";
+
+			}
+			
+			echo "		</div>";
+			echo "</div>";	
+/*
+			
+			
+
 			<div class="col-lg mt-2 mb-2">
 				<span id="first_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $name; ?></span>
 				<input type="text" value="<?php echo $name; ?>" class="editbox form-control form-control-lg" id="first_input_<?php echo $id; ?>" />
@@ -146,15 +219,13 @@ $(document).ready(function() {
 				<span id="last_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $getraenk; ?></span> 
 				<input type="text" value="<?php echo $getraenk; ?>" class="editbox form-control form-control-lg" id="last_input_<?php echo $id; ?>"/>
 			</div>
-		</div>
-	</div>
 
+*/
 
-
-<?php
 		}
 	}
 ?>
+
 
 
 </body>
