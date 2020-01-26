@@ -60,6 +60,28 @@ $(document).ready(function() {
 
 <style>
 	
+
+	:root {
+	    color-scheme: light dark;
+	    --my-text-color: black;
+	    --border-color: black;
+	    --my-backgroundcolor: white;
+	}
+
+	@media (prefers-color-scheme: dark) {
+	    :root {
+	        --my-text-color: white;
+	        --border-color: white;
+		    --my-backgroundcolor: #282922;
+	    }
+	}
+
+	body {
+		color: var(--my-text-color);
+		background-color: var(--my-backgroundcolor);
+	}
+
+
 	td {
 		padding:5px;
 	}
