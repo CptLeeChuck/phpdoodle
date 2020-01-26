@@ -52,7 +52,7 @@ $(document).ready(function() {
 		
 		$.ajax( {
 			type: "POST",
-			url: "table_edit_ajax.php",
+			url: "update_via_ajax.php",
 			data: dataString,
 			cache: false,
 			success: function(html) {
