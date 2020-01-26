@@ -1,0 +1,9 @@
+<?php
+
+	$mysql_hostname = "HOST";
+	$mysql_user = "USER";
+	$mysql_password = "PASSWORD";
+	$mysql_database = "DATABASE";
+	$mysql_table = "TABLE";
+	
+?>

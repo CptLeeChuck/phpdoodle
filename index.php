@@ -1,18 +1,9 @@
-<!doctype html>
-<html class="no-js" lang="en">
-
 <?php
-	// db.php defines the follwing:
-	// $mysql_hostname = "HOST";
-	// $mysql_user = "USER";
-	// $mysql_password = "PASSWORD";
-	// $mysql_database = "DATABASE";
-	// $mysql_table = "TABLE";
-	// $link = mysqli_connect($mysql_hostname, $mysql_user, $mysql_password, $mysql_database) or die("Could not connect database");
+
 	include('db.php');
 
-
-?>
+?><!doctype html>
+<html class="no-js" lang="en">
 
 <head>
 	<script type="text/javascript" src="jq15.js"></script> <!-- JQuery 1.5 :-o -->
