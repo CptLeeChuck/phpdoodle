@@ -47,7 +47,7 @@ $(document).ready(function() {
 			echo ";\n";
 		?>
 		
-		// Vielleicht hier doch ein Waiting Wheel weil so lange ist auch noch der alte Wert im Text zu sehen
+		// Todo? Vielleicht hier ein Waiting Wheel weil so lange ist auch noch der alte Wert im Text zu sehen
 		// bevor die Success Meldung des Ajax Requests erfolgte bleibt der Text der Alte.
 		
 		$.ajax( {
@@ -111,20 +111,12 @@ $(document).ready(function() {
 	}
 	
 	.text {
-		/*width:380px;
-		height: 20px;*/
 		background-color:#bbcccc;
-		/*border:solid 1px #000;
-		padding:4px;*/
 		display:inline-block;
 	}
 	
 	.editbox {
-		/*height: 20px;
-		width:380px;*/
 		background-color:#ffffcc;
-		/*border:solid 1px #000;
-		padding:4px;*/	
 		display:none
 	}
 	
@@ -136,88 +128,80 @@ $(document).ready(function() {
 
 </head>
 <body>
-
 <br><br><br><br><br>
-
-	
-
 
 <?php
 
-	// Create SQL query like:
-	// $query = "SELECT firstcolumn, secndcolumn FROM 'test'";
+	// =================== ======
+	// Define Table Header (+SQL)
+	// =================== ======
+	echo '<div class="container">';
+	echo '<div class="row align-items-center">';
+
+	// Define also the SQL query to catch all row/cols while printing each table header.
+	// The created SQL query looks very simple like:
+	// $query = "SELECT id, firstcolumn, secndcolumn FROM 'test'";
 	$query = "SELECT id, ";
 	$firstloop = true;
 	foreach ($spalten as $spalte) {
-				if (!$firstloop)
-					$query .= ", ";
-				$query .= $spalte["col"];
-				$firstloop = false;
-			}
+
+		// SQL
+		if (!$firstloop)
+			$query .= ", ";
+		$query .= $spalte["col"];
+		$firstloop = false;
+
+		// Table Header
+		echo '<div class="col-lg mt-2 mb-2">';
+		echo $spalte["col"];
+		echo "</div>\n";
+
+	}
 	$query .= " FROM $mysql_table";
 
-	// mysqli with statement
+	echo "</div>";
+	echo "</div>";
+
+
+
+
+	// ====================
+	// Define Table content
+	// ====================
+
 	if ($stmt = mysqli_prepare($link, $query)) {
 	    // execute statement
 	    mysqli_stmt_execute($stmt);
 	    // catch results
 	    $result = mysqli_stmt_get_result($stmt);
-	    // loop each row
+	    // loop each row from result
         while ($row = mysqli_fetch_assoc($result))
         {
-            ///////echo $row["name"];
 
-   			// Create rows like
-			// <div class="col-lg mt-2 mb-2">
-			// 	<span id="first_ID-HERE" class="text form-control form-control-lg">VALUE_HERE</span>
-			// 	<input type="text" value="VALUE_HERE" class="editbox form-control form-control-lg" id="first_input_ID-HERE" />
-			// </div>
+   			// Create the div wrapper for each row of the table
+        	echo '<div class="container">' . "\n";
+			echo "\t" . '<div id="' . $row["id"] . '" class="edit_tr row align-items-center">' . "\n";
 
-
-        	//<div class="container">
-				//<div id="ID-HERE" class="edit_tr row align-items-center">
-
-        	echo '<div class="container">';
-			echo '<div id="' . $row["id"] . '" class="edit_tr row align-items-center">';
-
- 			
+			// Loop thru each column in this row and create the cell with specific CSS tags 			
             foreach ($spalten as $spalte) {
-	//			echo '$("#' . $spalte["col"] . '_"+ID).hide();' . "\n";
-	//			echo '$("#' . $spalte["col"] . '_input_"+ID).show();' . "\n";
-
-	            echo '<div class="col-lg mt-2 mb-2">' . "\n";
-	            echo '	<span id="' . $spalte["col"] . '_' . $row["id"] . '" class="text form-control form-control-lg">' . $row[$spalte["col"]] . '</span>' . "\n";
-	            echo '	<input type="text" value="' . $row[$spalte["col"]] . '" class="editbox form-control form-control-lg" id="' . $spalte["col"] . '_input_' . $row["id"] . '" />' . "\n";
-	            echo "</div>\n";
-
+	            echo "\t\t"   . '<div class="col-lg mt-2 mb-2">' . "\n";
+	            echo "\t\t\t" . '<span id="' . $spalte["col"] . '_' . $row["id"] . '" class="text form-control form-control-lg">' . $row[$spalte["col"]] . '</span>' . "\n";
+	            echo "\t\t\t" . '<input type="text" value="' . $row[$spalte["col"]] . '" class="editbox form-control form-control-lg" id="' . $spalte["col"] . '_input_' . $row["id"] . '" />' . "\n";
+	            echo "\t\t"   . "</div>\n";
 			}
 			
-			echo "		</div>";
-			echo "</div>";	
-/*
-			
-			
-
-			<div class="col-lg mt-2 mb-2">
-				<span id="first_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $name; ?></span>
-				<input type="text" value="<?php echo $name; ?>" class="editbox form-control form-control-lg" id="first_input_<?php echo $id; ?>" />
-			</div>
-			<div class="col-lg mt-2 mb-2">
-				<span id="wurst_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $wurst; ?></span> 
-				<input type="text" value="<?php echo $wurst; ?>" class="editbox form-control form-control-lg" id="wurst_input_<?php echo $id; ?>"/>
-			</div>
-			<div class="col-lg mt-2 mb-2">
-				<span id="last_<?php echo $id; ?>" class="text form-control form-control-lg"><?php echo $getraenk; ?></span> 
-				<input type="text" value="<?php echo $getraenk; ?>" class="editbox form-control form-control-lg" id="last_input_<?php echo $id; ?>"/>
-			</div>
-
-*/
+			// Close the div wrapper for each row in the table
+			echo "\t" . "</div>\n";
+			echo "</div>\n\n\n";	
 
 		}
 	}
+
+
+
+	// ==============
+	// Close the file
+	// ==============
 ?>
-
-
-
 </body>
 </html>
