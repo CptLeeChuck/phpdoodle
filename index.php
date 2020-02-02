@@ -1,4 +1,7 @@
 <?php
+	
+	// TODO: MaxSize considering in text fields from mySQL
+	// TODO: Column comment name instead of column name
 
 	include('db.php');
 
