@@ -156,7 +156,10 @@ $(document).ready(function() {
 
 		// Table Header
 		echo '<div class="col-lg mt-2 mb-2">';
-		echo $spalte["col"];
+		if ($spalte["comment"] == "")
+			echo $spalte["col"];
+		else
+			echo $spalte["comment"];
 		echo "</div>\n";
 
 	}
@@ -188,8 +191,8 @@ $(document).ready(function() {
 			// Loop thru each column in this row and create the cell with specific CSS tags 			
             foreach ($spalten as $spalte) {
 	            echo "\t\t"   . '<div class="col-lg mt-2 mb-2">' . "\n";
-	            echo "\t\t\t" . '<span id="' . $spalte["col"] . '_' . $row["id"] . '" class="text form-control form-control-lg">' . $row[$spalte["col"]] . '</span>' . "\n";
-	            echo "\t\t\t" . '<input type="text" value="' . $row[$spalte["col"]] . '" class="editbox form-control form-control-lg" id="' . $spalte["col"] . '_input_' . $row["id"] . '" />' . "\n";
+	            echo "\t\t\t" . '<span id="'.$spalte["col"].'_'.$row["id"].'" class="text form-control form-control-lg">'.$row[$spalte["col"]].'</span>' . "\n";
+	            echo "\t\t\t" . '<input type="text" value="'.$row[$spalte["col"]].'" class="editbox form-control form-control-lg" id="'.$spalte["col"].'_input_'.$row["id"].'" maxlength="'.$spalte["max"].'"/>' . "\n";
 	            echo "\t\t"   . "</div>\n";
 			}
 			
